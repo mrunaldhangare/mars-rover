@@ -1,10 +1,10 @@
-import { Coordinates, InitialRoverPoints } from "./types";
+import { Coordinates, RoverCoordinates } from "./types";
 import { isValidDirection } from "./utils";
 
 export const initialRoverPosition = (
-  { x, y, direction }: InitialRoverPoints,
+  { x, y, direction }: RoverCoordinates,
   { x: xPos, y: yPos }: Coordinates
-): InitialRoverPoints | void => {
+): RoverCoordinates | void => {
   if (!x || !y || isNaN(x) || isNaN(y)) throw new Error("Invalid Input");
   const validDirection = isValidDirection(direction);
   const isInvalidPosition = x > xPos || y > yPos;

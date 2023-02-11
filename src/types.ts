@@ -2,7 +2,7 @@ export interface Coordinates {
   x: number;
   y: number;
 }
-export interface InitialRoverPoints extends Coordinates {
+export interface RoverCoordinates extends Coordinates {
   direction: Directions;
 }
 export type RoverInstruction = "L" | "R" | "M";
