@@ -1,47 +1,35 @@
-import { initialRoverPosition } from "../src/rover";
-import { Coordinates, RoverCoordinates } from "../src/types";
+import { getFinalRoverPosition } from "../src/rover";
+import { RoverCoordinates } from "../src/types";
 
-describe.only("initialRoverPosition", () => {
-  const plateauGrid: Coordinates = {
-    x: 4,
-    y: 4,
-  };
-  test("if x is empty and y is 0 return error", () => {
-    const input = {
-      x: "",
-      y: 0,
-      direction: "N",
-    };
-    // @ts-ignore
-    const results = () => initialRoverPosition(input, plateauGrid);
-    expect(results).toThrow(new Error("Invalid Input"));
+describe("getFinalRoverPosition", () => {
+  test("if initial coordinates are 1,1,N & input is R, returns 1,1,E", () => {
+    const inputCoordinates: RoverCoordinates = { x: 1, y: 1, direction: "N" };
+    const results = getFinalRoverPosition(inputCoordinates, "R");
+    expect(results).toEqual({ x: 1, y: 1, direction: "E" });
   });
-  test("if direction is not valid input return error", () => {
-    const input = {
-      x: 1,
-      y: 2,
-      direction: "X",
-    };
-    // @ts-ignore
-    const results = () => initialRoverPosition(input, plateauGrid);
-    expect(results).toThrow(new Error("Invalid rover position"));
+  test("if initial coordinates are 1,1,W & input is L, returns 1,1,S", () => {
+    const inputCoordinates: RoverCoordinates = { x: 1, y: 1, direction: "W" };
+    const results = getFinalRoverPosition(inputCoordinates, "L");
+    expect(results).toEqual({ x: 1, y: 1, direction: "S" });
   });
-  test("if input x/y are greater than max plateau grid value", () => {
-    const input: RoverCoordinates = {
-      x: 5,
-      y: 4,
-      direction: "N",
-    };
-    const results = () => initialRoverPosition(input, plateauGrid);
-    expect(results).toThrow(new Error("Invalid rover position"));
+  test("if initial coordinates are 1,1,N & input is M, returns 1,2,N", () => {
+    const inputCoordinates: RoverCoordinates = { x: 1, y: 1, direction: "N" };
+    const results = getFinalRoverPosition(inputCoordinates, "M");
+    expect(results).toEqual({ x: 1, y: 2, direction: "N" });
   });
-  test("if valid x,y and direction return initial rover position", () => {
-    const input: RoverCoordinates = {
-      x: 2,
-      y: 3,
-      direction: "N",
-    };
-    const results = initialRoverPosition(input, plateauGrid);
-    expect(results).toEqual({ x: 2, y: 3, direction: "N" });
+  test("if initial coordinates are 2,3,E & input is M, returns 3,3,E", () => {
+    const inputCoordinates: RoverCoordinates = { x: 2, y: 3, direction: "E" };
+    const results = getFinalRoverPosition(inputCoordinates, "M");
+    expect(results).toEqual({ x: 3, y: 3, direction: "E" });
+  });
+  test("if initial coordinates are 1,2,N & input is LMLMLMLMM, returns 1,3,N", () => {
+    const inputCoordinates: RoverCoordinates = { x: 1, y: 2, direction: "N" };
+    const results = getFinalRoverPosition(inputCoordinates, "LMLMLMLMM");
+    expect(results).toEqual({ x: 1, y: 3, direction: "N" });
+  });
+  test("if initial coordinates are 3,3,E & input is MMRMMRMRRM, returns 5,1,E", () => {
+    const inputCoordinates: RoverCoordinates = { x: 3, y: 3, direction: "E" };
+    const results = getFinalRoverPosition(inputCoordinates, "MMRMMRMRRM");
+    expect(results).toEqual({ x: 5, y: 1, direction: "E" });
   });
 });

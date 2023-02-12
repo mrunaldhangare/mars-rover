@@ -1,8 +1,10 @@
 import { DIRECTIONS, INSTRUCTIONS } from "./constants";
-import { Directions, RoverCoordinates, RoverInstruction } from "./types";
+import { Directions, RoverCoordinates } from "./types";
 
 export const isValidInstruction = (inputValue: string): boolean => {
-  return INSTRUCTIONS.includes(inputValue);
+  return !inputValue
+    .split("")
+    .some((inputVal: string) => !INSTRUCTIONS.includes(inputVal));
 };
 
 export const isValidDirection = (inputValue: string): boolean => {
@@ -10,21 +12,21 @@ export const isValidDirection = (inputValue: string): boolean => {
 };
 
 export const changeRoverDirection = (
-  currentDirection: Directions,
-  movement: RoverInstruction
-): Directions => {
-  let changedDirection = "";
+  initialPosition: RoverCoordinates,
+  movement: string
+): RoverCoordinates => {
+  let direction = "";
 
-  const currentDirIndex = DIRECTIONS.indexOf(currentDirection);
+  const currentDirIndex = DIRECTIONS.indexOf(initialPosition.direction);
   if (movement === "L") {
-    changedDirection =
+    direction =
       currentDirIndex === 0 ? DIRECTIONS[3] : DIRECTIONS[currentDirIndex - 1];
   } else {
-    changedDirection =
+    direction =
       currentDirIndex === 3 ? DIRECTIONS[0] : DIRECTIONS[currentDirIndex + 1];
   }
 
-  return changedDirection as Directions;
+  return { ...initialPosition, direction: direction as Directions };
 };
 
 export const moveRover = ({
@@ -48,4 +50,8 @@ export const moveRover = ({
   }
 
   return { x, y, direction };
+};
+
+export const isValidNumber = (value: any): Boolean => {
+  return value !== "" && !isNaN(value);
 };
