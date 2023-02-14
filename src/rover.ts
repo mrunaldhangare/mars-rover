@@ -1,11 +1,11 @@
-import { Coordinates, RoverCoordinates } from "./types";
+import { Coordinates, RoverCoordinates, RoverFinalResponse } from "./types";
 import { changeRoverDirection, moveRover } from "./utils";
 
 export const getFinalRoverPosition = (
   roverPosition: RoverCoordinates,
   instructions: string,
   maxPosition: Coordinates
-): RoverCoordinates => {
+): RoverFinalResponse => {
   const instructionValues = instructions.split("");
 
   return instructionValues.reduce(

@@ -5,6 +5,10 @@ export interface Coordinates {
 export interface RoverCoordinates extends Coordinates {
   direction: Directions;
 }
+export interface RoverFinalResponse extends RoverCoordinates {
+  hasCrashed?: boolean;
+}
+
 export type RoverInstruction = "L" | "R" | "M";
 
 export type Directions = "S" | "W" | "N" | "E";

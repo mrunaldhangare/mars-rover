@@ -1,5 +1,10 @@
 import { DIRECTIONS, DirectionSymbol, INSTRUCTIONS } from "./constants";
-import { Coordinates, Directions, RoverCoordinates } from "./types";
+import {
+  Coordinates,
+  Directions,
+  RoverCoordinates,
+  RoverFinalResponse,
+} from "./types";
 import { print } from "./ui/console";
 
 export const isValidInstruction = (inputValue: string): boolean => {
@@ -31,25 +36,37 @@ export const changeRoverDirection = (
 };
 
 export const moveRover = (
-  { x, y, direction }: RoverCoordinates,
+  roverPosition: RoverFinalResponse,
   { x: maxX, y: maxY }: Coordinates
-): RoverCoordinates => {
-  switch (direction) {
+): RoverFinalResponse => {
+  switch (roverPosition.direction) {
     case "N":
-      y = y === maxY ? y : y + 1;
+      roverPosition =
+        roverPosition.y === maxY
+          ? { ...roverPosition, hasCrashed: true }
+          : { ...roverPosition, y: roverPosition.y + 1 };
       break;
     case "E":
-      x = x === maxX ? x : x + 1;
+      roverPosition =
+        roverPosition.x === maxX
+          ? { ...roverPosition, hasCrashed: true }
+          : { ...roverPosition, x: roverPosition.x + 1 };
       break;
     case "S":
-      y = y === 0 ? y : y - 1;
+      roverPosition =
+        roverPosition.y === 0
+          ? { ...roverPosition, hasCrashed: true }
+          : { ...roverPosition, y: roverPosition.y - 1 };
       break;
     case "W":
-      x = x === 0 ? x : x - 1;
+      roverPosition =
+        roverPosition.x === 0
+          ? { ...roverPosition, hasCrashed: true }
+          : { ...roverPosition, x: roverPosition.x - 1 };
       break;
   }
 
-  return { x, y, direction };
+  return roverPosition;
 };
 
 export const isValidNumber = (value: any): Boolean => {

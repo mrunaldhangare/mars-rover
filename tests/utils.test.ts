@@ -98,19 +98,19 @@ describe("moveRover", () => {
   });
   test("if current direction is E, and current x value is equal to max x value return original co-ordinates", () => {
     const results = moveRover({ x: 5, y: 4, direction: "E" }, maxCoordinates);
-    expect(results).toEqual({ x: 5, y: 4, direction: "E" });
+    expect(results).toEqual({ x: 5, y: 4, direction: "E", hasCrashed: true });
   });
   test("if current direction is W, and current x value is equal to 0 return original co-ordinates", () => {
     const results = moveRover({ x: 0, y: 3, direction: "W" }, maxCoordinates);
-    expect(results).toEqual({ x: 0, y: 3, direction: "W" });
+    expect(results).toEqual({ x: 0, y: 3, direction: "W", hasCrashed: true });
   });
   test("if current direction is N, and current y value is equal to max y value return original co-ordinates", () => {
     const results = moveRover({ x: 4, y: 5, direction: "N" }, maxCoordinates);
-    expect(results).toEqual({ x: 4, y: 5, direction: "N" });
+    expect(results).toEqual({ x: 4, y: 5, direction: "N", hasCrashed: true });
   });
   test("if current direction is S, and current y value is equal to 0 return original co-ordinates", () => {
     const results = moveRover({ x: 5, y: 0, direction: "S" }, maxCoordinates);
-    expect(results).toEqual({ x: 5, y: 0, direction: "S" });
+    expect(results).toEqual({ x: 5, y: 0, direction: "S", hasCrashed: true });
   });
 });
 

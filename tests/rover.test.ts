@@ -41,6 +41,7 @@ describe("getFinalRoverPosition", () => {
     );
     expect(results).toEqual({ x: 5, y: 1, direction: "E" });
   });
+
   test("if initial coordinates are 3,3,E & input is MMRMMRMRRM, returns 5,1,E", () => {
     const inputCoordinates: RoverCoordinates = { x: 3, y: 3, direction: "E" };
 
@@ -49,6 +50,6 @@ describe("getFinalRoverPosition", () => {
       "MMMM",
       maxPosition
     );
-    expect(results).toEqual({ x: 5, y: 3, direction: "E" });
+    expect(results).toEqual({ x: 5, y: 3, direction: "E", hasCrashed: true });
   });
 });
