@@ -1,4 +1,4 @@
-import { RoverCoordinates } from "../src/types";
+import { Coordinates, RoverCoordinates } from "../src/types";
 import {
   isValidDirection,
   isValidInstruction,
@@ -67,22 +67,50 @@ describe("changeRoverDirection", () => {
 });
 describe("moveRover", () => {
   const inputCoordinates: RoverCoordinates = { x: 2, y: 2, direction: "N" };
-
+  const maxCoordinates: Coordinates = { x: 5, y: 5 };
   test("if current direction is N, increase y coordinate by 1", () => {
-    const results = moveRover({ ...inputCoordinates, direction: "N" });
+    const results = moveRover(
+      { ...inputCoordinates, direction: "N" },
+      maxCoordinates
+    );
     expect(results).toEqual({ x: 2, y: 3, direction: "N" });
   });
   test("if current direction is E, increase x coordinate by 1", () => {
-    const results = moveRover({ ...inputCoordinates, direction: "E" });
+    const results = moveRover(
+      { ...inputCoordinates, direction: "E" },
+      maxCoordinates
+    );
     expect(results).toEqual({ x: 3, y: 2, direction: "E" });
   });
   test("if current direction is S, decrease y coordinate by 1", () => {
-    const results = moveRover({ ...inputCoordinates, direction: "S" });
+    const results = moveRover(
+      { ...inputCoordinates, direction: "S" },
+      maxCoordinates
+    );
     expect(results).toEqual({ x: 2, y: 1, direction: "S" });
   });
   test("if current direction is W, decrease x coordinate by 1", () => {
-    const results = moveRover({ ...inputCoordinates, direction: "W" });
+    const results = moveRover(
+      { ...inputCoordinates, direction: "W" },
+      maxCoordinates
+    );
     expect(results).toEqual({ x: 1, y: 2, direction: "W" });
+  });
+  test("if current direction is E, and current x value is equal to max x value return original co-ordinates", () => {
+    const results = moveRover({ x: 5, y: 4, direction: "E" }, maxCoordinates);
+    expect(results).toEqual({ x: 5, y: 4, direction: "E" });
+  });
+  test("if current direction is W, and current x value is equal to 0 return original co-ordinates", () => {
+    const results = moveRover({ x: 0, y: 3, direction: "W" }, maxCoordinates);
+    expect(results).toEqual({ x: 0, y: 3, direction: "W" });
+  });
+  test("if current direction is N, and current y value is equal to max y value return original co-ordinates", () => {
+    const results = moveRover({ x: 4, y: 5, direction: "N" }, maxCoordinates);
+    expect(results).toEqual({ x: 4, y: 5, direction: "N" });
+  });
+  test("if current direction is S, and current y value is equal to 0 return original co-ordinates", () => {
+    const results = moveRover({ x: 5, y: 0, direction: "S" }, maxCoordinates);
+    expect(results).toEqual({ x: 5, y: 0, direction: "S" });
   });
 });
 
