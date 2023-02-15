@@ -41,6 +41,29 @@ AskQuestions: Defines an object that contains data about question and type of in
 
 ## UML Diagram
 
+ ```mermaid
+graph TD;
+  Start --> ReadMaxPlateauSize;
+  ReadMaxPlateauSize --> CreatePlateau;
+  CreatePlateau --> ReadInitialRoverPosition;
+  ReadInitialRoverPosition --> ExceedPlateauLimits;
+  ExceedPlateauLimits --> |Yes| ReadInitialRoverPosition;
+  ExceedPlateauLimits --> |No| AddRover;
+  AddRover --> ReadRoverInstructions;
+  ReadRoverInstructions --> MoveRover;
+  MoveRover --> ValidatePlateuLimits;
+  ValidatePlateuLimits --> |Out of Limit| DisplayError-RoverCrashed;
+  ValidatePlateuLimits --> |OK| DisplayPosition;
+  DisplayError-RoverCrashed --> LandAnotherRover;
+  DisplayPosition --> LandAnotherRover;
+  LandAnotherRover --> |Yes| ReadInitialRoverPosition;
+  LandAnotherRover --> |No| AskToRunAgain;
+  AskToRunAgain --> |Yes| Start;
+  AskToRunAgain --> |No| End;
+  End((End));
+
+ ```
+
 ## Roadmap
 
 - [x] Basic movement of single rover
