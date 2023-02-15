@@ -45,6 +45,6 @@ AskQuestions: Defines an object that contains data about question and type of in
 
 - [x] Basic movement of single rover
 - [x] Handling multiple rover movement
-- [] Handle obstructions
-- [] Support a different shaped Plateau.
-- [] Support vehicles other than Rovers
+- [ ] Handle obstructions
+- [ ] Support a different shaped Plateau.
+- [ ] Support vehicles other than Rovers
