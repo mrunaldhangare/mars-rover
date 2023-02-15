@@ -11,7 +11,7 @@ import {
 import { hasValidInputType } from "./utils";
 import { DIRECTION_NAMES, USER_QUESTIONS } from "./constants";
 
-export const landMarsRover = async (plateauMaxCoordinates: Coordinates) => {
+export const initiateRover = async (plateauMaxCoordinates: Coordinates) => {
   print("--------------------------------------------------");
   print(
     `Plateau has maximum (x, y) co-ordinates of (${plateauMaxCoordinates.x}, ${plateauMaxCoordinates.y})`
@@ -38,10 +38,10 @@ export const landMarsRover = async (plateauMaxCoordinates: Coordinates) => {
     direction: initRoverDirection,
   };
 
-  handleInitialPosition(initialPosition, plateauMaxCoordinates);
+  initiateInstructions(initialPosition, plateauMaxCoordinates);
 };
 
-export const handleInitialPosition = async (
+export const initiateInstructions = async (
   initialPosition: RoverCoordinates,
   plateauMaxCoordinates: Coordinates
 ) => {
@@ -87,7 +87,7 @@ export const handleRoverInstructions = async (
     userQuestion: USER_QUESTIONS.startAnotherRover,
   });
   if (startAnotherRover === "Y") {
-    landMarsRover(plateauMaxCoordinates);
+    initiateRover(plateauMaxCoordinates);
   } else {
     await validateUserInput({
       userQuestion: USER_QUESTIONS.restartMission,
@@ -138,7 +138,7 @@ export async function startMission(): Promise<void> {
   });
 
   const maxPlateauCoordinates = { x: plateauMaxXValue, y: plateauMaxYValue };
-  landMarsRover(maxPlateauCoordinates);
+  initiateRover(maxPlateauCoordinates);
 }
 
 startMission();

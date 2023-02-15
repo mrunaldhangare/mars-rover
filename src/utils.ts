@@ -87,24 +87,3 @@ export const hasValidInputType = (userValue: string, type: string): Boolean => {
   }
   return isValidInputType;
 };
-
-// export const generatePlateau = (
-//   { x, y }: Coordinates,
-//   { direction, x: initX, y: initY }: RoverCoordinates
-// ): void => {
-//   let abc: Array<any> = [];
-//   for (let i = y; i > 0; i--) {
-//     let hTable: Array<string> = [];
-//     for (let j = 0; j < x; j++) {
-//       if (i == initY + 1 && j == initX) {
-//         hTable.push(
-//           `|   ${DirectionSymbol[direction]}   ${j === x - 1 ? "|" : ""}`
-//         );
-//       } else {
-//         hTable.push(`|   -   ${j === x - 1 ? "|" : ""}`);
-//       }
-//     }
-//     print(hTable.join(""));
-//     // abc.push(hTable);
-//   }
-// };
