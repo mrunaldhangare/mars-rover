@@ -8,12 +8,7 @@ import {
   RoverCoordinates,
   RoverFinalResponse,
 } from "./types";
-import {
-  hasValidInputType,
-  isValidDirection,
-  isValidInstruction,
-  isValidNumber,
-} from "./utils";
+import { hasValidInputType } from "./utils";
 import { DIRECTION_NAMES, USER_QUESTIONS } from "./constants";
 
 export const landMarsRover = async (plateauMaxCoordinates: Coordinates) => {
@@ -35,7 +30,6 @@ export const landMarsRover = async (plateauMaxCoordinates: Coordinates) => {
 
   let initRoverDirection = await validateUserInput({
     userQuestion: USER_QUESTIONS.askRoverDirection,
-    maxData: plateauMaxCoordinates.y,
   });
 
   const initialPosition: RoverCoordinates = {
@@ -114,7 +108,7 @@ const validateUserInput = async ({
     const isValidInput = hasValidInputType(userValue, type);
     const notWithinLimit = maxData && maxData < userValue ? true : false;
     if (!isValidInput || notWithinLimit) {
-      console.log("Your input is invalid, please try again !!");
+      print("Your input is invalid, please try again !!");
       const inputUserValue: any = await askQuestion(question);
       return await validateUserInput({
         userQuestion,
