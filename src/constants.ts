@@ -1,10 +1,15 @@
-import { AskQuestions } from "./types";
+import {
+  AskQuestions,
+  Directions,
+  DirectionType,
+  RoverInstruction,
+} from "./types";
 
 export const INSTRUCTIONS = ["L", "R", "M"];
 
-export const DIRECTIONS = ["N", "E", "S", "W"];
+export const DIRECTIONS: Array<Directions> = ["N", "E", "S", "W"];
 
-export const DIRECTION_NAMES = {
+export const DIRECTION_NAMES: DirectionType = {
   N: "North",
   S: "South",
   W: "West",
@@ -18,28 +23,28 @@ export const DirectionSymbol = {
   W: "⬅", // leftarrow
 };
 
-export const userQuestions: AskQuestions = {
-  initMaxXCoordinate: {
+export const USER_QUESTIONS: AskQuestions = {
+  askMaxValueX: {
     question: "Enter maximum value for x co-ordinate : ",
     type: "number",
   },
-  initMaxYCoordinate: {
+  askMaxValueY: {
     question: "Enter maximum value for y co-ordinate : ",
     type: "number",
   },
-  initRoverXCoordinate: {
+  askRoverValueX: {
     question: "Enter initial x co-ordinate : ",
     type: "number",
   },
-  initRoverYCoordinate: {
+  askRoverValueY: {
     question: "Enter initial y co-ordinate : ",
     type: "number",
   },
-  initRoverDirection: {
+  askRoverDirection: {
     question: "Enter initial orientation N,S,E or W: ",
     type: "direction",
   },
-  startRoverMovement: {
+  askRoverMovement: {
     question: "Enter rovers movement instruction: ",
     type: "movement",
   },
@@ -48,7 +53,7 @@ export const userQuestions: AskQuestions = {
     type: "boolean",
   },
   restartMission: {
-    question: "Press ENTER to restart! ",
-    type: "none",
+    question: "Press enter key to restart! ",
+    type: "enterKey",
   },
 };

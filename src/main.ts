@@ -2,11 +2,11 @@ import { clear, print, askQuestion } from "./ui/console";
 
 import { getFinalRoverPosition } from "./rover";
 import {
+  AskUserInput,
   Coordinates,
   Directions,
   RoverCoordinates,
   RoverFinalResponse,
-  UserQuestions,
 } from "./types";
 import {
   hasValidInputType,
@@ -14,7 +14,7 @@ import {
   isValidInstruction,
   isValidNumber,
 } from "./utils";
-import { DIRECTION_NAMES, userQuestions } from "./constants";
+import { DIRECTION_NAMES, USER_QUESTIONS } from "./constants";
 
 export const landMarsRover = async (plateauMaxCoordinates: Coordinates) => {
   print("--------------------------------------------------");
@@ -23,27 +23,27 @@ export const landMarsRover = async (plateauMaxCoordinates: Coordinates) => {
   );
   print("Provide values for initial position of rover on the plateau:");
 
-  let initRoverXCoordinate = await validateUserInput(
-    UserQuestions.initRoverXCoordinate
-  );
+  let initRoverXCoordinate = await validateUserInput({
+    userQuestion: USER_QUESTIONS.askRoverValueX,
+    maxData: plateauMaxCoordinates.x,
+  });
 
-  //TODO -check max value
-  // const isValidInitialXPosition = initRoverXCoordinate <= maxPlateau.x;
-  let initRoverYCoordinate = await validateUserInput(
-    UserQuestions.initRoverYCoordinate
-  );
+  let initRoverYCoordinate = await validateUserInput({
+    userQuestion: USER_QUESTIONS.askRoverValueY,
+    maxData: plateauMaxCoordinates.y,
+  });
 
-  //TODO -check max value
-  //const isValidInitialYPosition = isValidNumber(initRoverY) && +initRoverY <= maxPlateau.y;
-  let initRoverDirection = await validateUserInput(
-    UserQuestions.initRoverDirection
-  );
+  let initRoverDirection = await validateUserInput({
+    userQuestion: USER_QUESTIONS.askRoverDirection,
+    maxData: plateauMaxCoordinates.y,
+  });
 
   const initialPosition: RoverCoordinates = {
     x: initRoverXCoordinate,
     y: initRoverYCoordinate,
     direction: initRoverDirection,
   };
+
   handleInitialPosition(initialPosition, plateauMaxCoordinates);
 };
 
@@ -58,17 +58,18 @@ export const handleInitialPosition = async (
       DIRECTION_NAMES[direction.toUpperCase() as Directions]
     }`
   );
-  const inputRoverMovement = await validateUserInput(
-    UserQuestions.startRoverMovement
-  );
-  handleRoverMovement(
+  const inputRoverMovement = await validateUserInput({
+    userQuestion: USER_QUESTIONS.askRoverMovement,
+  });
+
+  handleRoverInstructions(
     initialPosition,
     inputRoverMovement,
     plateauMaxCoordinates
   );
 };
 
-export const handleRoverMovement = async (
+export const handleRoverInstructions = async (
   initialPosition: RoverCoordinates,
   movement: string,
   plateauMaxCoordinates: Coordinates
@@ -76,48 +77,53 @@ export const handleRoverMovement = async (
   print("-----------------------------------------------");
   const { x, y, direction, hasCrashed }: RoverFinalResponse =
     getFinalRoverPosition(initialPosition, movement, plateauMaxCoordinates);
-  // generatePlateau(maxPlateau, { x, y, direction });
   if (hasCrashed) {
     print("---😔😔😔-Oops!!!!-😛😛😛---");
 
     print(
-      `Your rover crashed!!!! and position of rover was x: ${x}, y: ${y}, facing: ${
-        DIRECTION_NAMES[direction.toUpperCase() as Directions]
-      }`
+      `Rover crashed!!!! and position of rover was x: ${x}, y: ${y}, facing: ${DIRECTION_NAMES[direction]}`
     );
   } else {
     print(
-      `Final position of rover is x: ${x}, y: ${y}, facing: ${
-        DIRECTION_NAMES[direction.toUpperCase() as Directions]
-      }`
+      `Final position of rover is x: ${x}, y: ${y}, facing: ${DIRECTION_NAMES[direction]}`
     );
   }
 
-  const startAnotherRover = await validateUserInput(
-    UserQuestions.startAnotherRover
-  );
+  const startAnotherRover = await validateUserInput({
+    userQuestion: USER_QUESTIONS.startAnotherRover,
+  });
   if (startAnotherRover === "Y") {
     landMarsRover(plateauMaxCoordinates);
   } else {
-    await validateUserInput(UserQuestions.restartMission);
+    await validateUserInput({
+      userQuestion: USER_QUESTIONS.restartMission,
+    });
     startMission();
   }
 };
 
-const validateUserInput = async (
-  userQuestionType: UserQuestions,
-  userInput?: string
-): Promise<any> => {
-  const { question, type } = userQuestions[userQuestionType];
+const validateUserInput = async ({
+  userQuestion,
+  userInput,
+  maxData,
+}: AskUserInput): Promise<any> => {
+  const { question, type } = userQuestion;
   const userValue: any = !userInput ? await askQuestion(question) : userInput;
 
-  // TODO needs seperat function for validation which return true false based on type
-  const isValidInput = hasValidInputType(userValue, type);
-  if (!isValidInput) {
-    console.log("Your input is not valid, Please try again !!");
-    const inputUserValue: any = await askQuestion(question);
-    return await validateUserInput(userQuestionType, inputUserValue);
+  if (type !== "enterKey") {
+    const isValidInput = hasValidInputType(userValue, type);
+    const notWithinLimit = maxData && maxData < userValue ? true : false;
+    if (!isValidInput || notWithinLimit) {
+      console.log("Your input is invalid, please try again !!");
+      const inputUserValue: any = await askQuestion(question);
+      return await validateUserInput({
+        userQuestion,
+        userInput: inputUserValue,
+        maxData,
+      });
+    }
   }
+
   return type === "number" ? parseInt(userValue) : userValue.toUpperCase();
 };
 
@@ -130,15 +136,15 @@ export async function startMission(): Promise<void> {
   print("Create a plateau grid to land your rover!");
   print("Provide maximum co-ordinates for plateau:");
 
-  const plateauMaxXValue = await validateUserInput(
-    UserQuestions.initMaxXCoordinate
-  );
-  const plateauMaxYValue = await validateUserInput(
-    UserQuestions.initMaxYCoordinate
-  );
+  const plateauMaxXValue = await validateUserInput({
+    userQuestion: USER_QUESTIONS.askMaxValueX,
+  });
+  const plateauMaxYValue = await validateUserInput({
+    userQuestion: USER_QUESTIONS.askMaxValueY,
+  });
 
-  const maxPlateau = { x: plateauMaxXValue, y: plateauMaxYValue };
-  landMarsRover(maxPlateau);
+  const maxPlateauCoordinates = { x: plateauMaxXValue, y: plateauMaxYValue };
+  landMarsRover(maxPlateauCoordinates);
 }
 
 startMission();

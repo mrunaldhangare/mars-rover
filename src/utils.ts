@@ -1,10 +1,5 @@
-import { DIRECTIONS, DirectionSymbol, INSTRUCTIONS } from "./constants";
-import {
-  Coordinates,
-  Directions,
-  RoverCoordinates,
-  RoverFinalResponse,
-} from "./types";
+import { DIRECTIONS, DIRECTION_NAMES, INSTRUCTIONS } from "./constants";
+import { Coordinates, RoverCoordinates, RoverFinalResponse } from "./types";
 import { print } from "./ui/console";
 
 export const isValidInstruction = (inputValue: string): boolean => {
@@ -14,25 +9,23 @@ export const isValidInstruction = (inputValue: string): boolean => {
 };
 
 export const isValidDirection = (inputValue: string): boolean => {
-  return DIRECTIONS.includes(inputValue);
+  return Object.keys(DIRECTION_NAMES).includes(inputValue);
 };
 
 export const changeRoverDirection = (
   initialPosition: RoverCoordinates,
   movement: string
 ): RoverCoordinates => {
-  let direction = "";
-
   const currentDirIndex = DIRECTIONS.indexOf(initialPosition.direction);
   if (movement === "L") {
-    direction =
+    const newDirection =
       currentDirIndex === 0 ? DIRECTIONS[3] : DIRECTIONS[currentDirIndex - 1];
-  } else {
-    direction =
-      currentDirIndex === 3 ? DIRECTIONS[0] : DIRECTIONS[currentDirIndex + 1];
+    return { ...initialPosition, direction: newDirection };
   }
+  const newDirection =
+    currentDirIndex === 3 ? DIRECTIONS[0] : DIRECTIONS[currentDirIndex + 1];
 
-  return { ...initialPosition, direction: direction as Directions };
+  return { ...initialPosition, direction: newDirection };
 };
 
 export const moveRover = (

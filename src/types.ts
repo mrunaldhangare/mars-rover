@@ -13,17 +13,30 @@ export type RoverInstruction = "L" | "R" | "M";
 
 export type Directions = "S" | "W" | "N" | "E";
 
-export enum UserQuestions {
-  "initMaxXCoordinate" = "initMaxXCoordinate",
-  "initMaxYCoordinate" = "initMaxYCoordinate",
-  "initRoverXCoordinate" = "initRoverXCoordinate",
-  "initRoverYCoordinate" = "initRoverYCoordinate",
-  "initRoverDirection" = "initRoverDirection",
-  "startRoverMovement" = "startRoverMovement",
-  "startAnotherRover" = "startAnotherRover",
-  "restartMission" = "restartMission",
-}
+export type UserQuestionsType =
+  | "askMaxValueX"
+  | "askMaxValueY"
+  | "askRoverValueX"
+  | "askRoverValueY"
+  | "askRoverDirection"
+  | "askRoverMovement"
+  | "startAnotherRover"
+  | "restartMission";
 
+export type QuestionsData = {
+  question: string;
+  type: string;
+};
 export type AskQuestions = {
-  [key in UserQuestions]: any;
+  [key in UserQuestionsType]: QuestionsData;
+};
+
+export type DirectionType = {
+  [key in Directions]: string;
+};
+
+export type AskUserInput = {
+  userQuestion: QuestionsData;
+  userInput?: string;
+  maxData?: number;
 };
