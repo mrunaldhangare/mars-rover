@@ -5,9 +5,10 @@ import {
   changeRoverDirection,
   moveRover,
   isValidNumber,
+  hasValidInputType,
 } from "../src/utils";
 
-describe("isValidInstructionisValidInstruction", () => {
+describe("isValidInstruction", () => {
   test("if instructions are invalid return false", () => {
     // @ts-ignore
     const results = isValidInstruction("X");
@@ -120,5 +121,35 @@ describe("isValidNumber", () => {
   });
   test("return true if input is valid number", () => {
     expect(isValidNumber("2")).toBe(true);
+  });
+  test("return false if input is negative number", () => {
+    expect(isValidNumber("-1")).toBe(false);
+  });
+});
+
+describe("hasValidInputType", () => {
+  test("return false if not valid input of direction", () => {
+    expect(hasValidInputType("D", "direction")).toBe(false);
+  });
+  test("return true if valid input of direction", () => {
+    expect(hasValidInputType("N", "direction")).toBe(true);
+  });
+  test("return false if not valid input of number", () => {
+    expect(hasValidInputType("hello", "number")).toBe(false);
+  });
+  test("return true if valid input of number", () => {
+    expect(hasValidInputType("1", "number")).toBe(true);
+  });
+  test("return false if not valid input of movement", () => {
+    expect(hasValidInputType("AAAAALM", "movement")).toBe(false);
+  });
+  test("return true if valid input of movement", () => {
+    expect(hasValidInputType("LMLMLRRR", "movement")).toBe(true);
+  });
+  test("return false if not valid input of boolean", () => {
+    expect(hasValidInputType("Test", "boolean")).toBe(false);
+  });
+  test("return true if valid input of boolean", () => {
+    expect(hasValidInputType("y", "boolean")).toBe(true);
   });
 });

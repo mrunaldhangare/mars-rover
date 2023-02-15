@@ -16,13 +16,22 @@ export function clear(addTopBorder: boolean): void {
   }
 }
 
-// NOTE: this "createInterface" function is built into node and is referring to the console interface - NOT a TypeScript interface!
-const reader = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+// // this function allows us to prompt the user with a question, and call a callback function with whatever string has been input
+// export function askQuestion(str: string): string {
+//   return prompt(str);
+// }
 
-// this function allows us to prompt the user with a question, and call a callback function with whatever string has been input
-export function askQuestion(question: string, callback: (arg: string) => void) {
-  reader.question(`❓ ${question} 👉 `, callback);
+// added promise to get user input
+export function askQuestion(question: string) {
+  // NOTE: this "createInterface" function is built into node and is referring to the console interface - NOT a TypeScript interface!
+  const reader = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  return new Promise((resolve) => {
+    reader.question(question, (answer) => {
+      reader.close();
+      resolve(answer);
+    });
+  });
 }

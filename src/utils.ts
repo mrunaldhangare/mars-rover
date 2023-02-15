@@ -70,7 +70,29 @@ export const moveRover = (
 };
 
 export const isValidNumber = (value: any): Boolean => {
-  return value !== "" && !isNaN(value);
+  return value !== "" && !isNaN(value) && value >= 0;
+};
+export const hasValidInputType = (userValue: string, type: string): Boolean => {
+  let isValidInputType: Boolean;
+
+  switch (type) {
+    case "number":
+      isValidInputType = isValidNumber(userValue);
+      break;
+    case "direction":
+      isValidInputType = isValidDirection(userValue.toUpperCase());
+      break;
+    case "movement":
+      isValidInputType = isValidInstruction(userValue.toUpperCase());
+      break;
+    case "boolean":
+      isValidInputType =
+        userValue.toUpperCase() === "Y" || userValue.toUpperCase() === "N";
+      break;
+    default:
+      isValidInputType = true;
+  }
+  return isValidInputType;
 };
 
 // export const generatePlateau = (
