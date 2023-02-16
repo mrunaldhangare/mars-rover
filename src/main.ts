@@ -48,9 +48,7 @@ export const initiateInstructions = async (
   const { x, y, direction } = initialPosition;
   print("----------------------------------------------");
   print(
-    `Rover's initial position is x: ${x}, y: ${y}, facing: ${
-      DIRECTION_NAMES[direction.toUpperCase() as Directions]
-    }`
+    `Rover's initial position is x: ${x}, y: ${y}, facing: ${DIRECTION_NAMES[direction]}`
   );
   const inputRoverMovement = await validateUserInput({
     userQuestion: USER_QUESTIONS.askRoverMovement,

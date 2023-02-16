@@ -1,9 +1,4 @@
-import {
-  AskQuestions,
-  Directions,
-  DirectionType,
-  RoverInstruction,
-} from "./types";
+import { AskQuestions, Directions, DirectionType } from "./types";
 
 export const INSTRUCTIONS = ["L", "R", "M"];
 

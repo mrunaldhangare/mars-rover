@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
+    "build": "tsc --p tsconfig.build.json",
     "start": "nodemon src/main.ts"
   },
   "keywords": [],
