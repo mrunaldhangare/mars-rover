@@ -16,13 +16,6 @@ export const DIRECTION_NAMES: DirectionType = {
   E: "East",
 };
 
-export const DirectionSymbol = {
-  N: "⬆", // uparrow
-  S: "⬇", //downarrow
-  E: "=>", //rightarrow
-  W: "⬅", // leftarrow
-};
-
 export const USER_QUESTIONS: AskQuestions = {
   askMaxValueX: {
     question: "Enter maximum value for x co-ordinate : ",

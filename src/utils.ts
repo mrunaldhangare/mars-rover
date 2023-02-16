@@ -1,6 +1,5 @@
 import { DIRECTIONS, DIRECTION_NAMES, INSTRUCTIONS } from "./constants";
 import { Coordinates, RoverCoordinates, RoverFinalResponse } from "./types";
-import { print } from "./ui/console";
 
 export const isValidInstruction = (inputValue: string): boolean => {
   return !inputValue
